@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LATER.ai - Optimize Your Procrastination</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import "Sticker" (Knewave), "Inter" (body), and "Cursive" (Gochi Hand) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Inter:wght@400;500;600;700;900&family=Knewave&display=swap" rel="stylesheet">
+    
+    <!-- NEW: Import Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        /* Custom scrollbar for a polished look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111827; /* bg-gray-900 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4B5563; /* bg-gray-600 */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6B7280; /* bg-gray-500 */
+        }
+        
+        /* CSS Loading Spinner (Yellow) */
+        .loader {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #FACC15; /* border-yellow-400 */
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Set clean font for body text */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000; /* Black background for landing page */
+        }
+        
+        /* Set "Sticker" font for the logo */
+        .font-logo {
+            font-family: 'Knewave', cursive;
+        }
+
+        /* Set "Cursive" font for the conversation */
+        .font-convo {
+            font-family: 'Gochi Hand', cursive;
+        }
+
+        /* Helper class to visually show active state */
+        .active-mode {
+            @apply ring-2 ring-yellow-400 shadow-lg;
+        }
+    </style>
+</head>
+<body class="h-full bg-black text-gray-100 antialiased">
+
+    <!-- NEW: Landing Page Container -->
+    <div id="landing-page" class="w-full overflow-x-hidden">
+        <!-- 1. Hero Section -->
+        <header class="h-screen flex flex-col items-center justify-center text-center p-6 bg-black text-white relative overflow-hidden">
+            
+            <!-- NEW: Shader Background Container -->
+            <div id="shader-container" class="absolute top-0 left-0 w-full h-full z-0"></div>
+
+            <!-- Background "Chaos" Grids -->
+            <div class="absolute -top-20 -left-20 w-96 h-96 border-4 border-gray-800 rounded-full opacity-30 z-10"></div>
+
+            <!-- Logo -->
+            <!-- NEW: z-20 to be on top of shader -->
+            <div class="flex items-center space-x-4 mb-4 z-20">
+                <!-- FIX: Replaced SVG with the new user-provided image -->
+                <img src="https://i.ibb.co/cKBPKjf9/unnamed-removebg-preview.png" alt="LATER.ai logo" class="w-16 h-16 md:w-24 md:h-24 object-contain">
+                
+                <h1 class="text-6xl md:text-8xl font-logo text-white tracking-wide">LATER.ai</h1>
+            </div>
+            
+            <!-- Tagline -->
+            <h2 class="text-xl md:text-3xl font-semibold text-gray-300 mb-8 z-20">
+                "Steal" your productivity. "Remix" your priorities.
+            </h2>
+            <p class="text-lg text-gray-400 max-w-2xl mb-12 z-20">
+                Tired of helpful AI? LATER.ai is the world's first anti-productivity assistant. We "stole" the idea of an AI chatbot and made it 100% worse.
+            </p>
+
+            <!-- Enter Button -->
+            <button id="enter-button" class="font-logo text-2xl text-gray-900 bg-yellow-400 rounded-lg px-12 py-5 shadow-lg transform hover:scale-105 transition-transform duration-200 hover:bg-yellow-300 active:scale-95 z-20">
+                Enter LATER.ai
+            </button>
+        </header>
+
+        <!-- 2. "Features" Section -->
+        <section class="py-20 px-6 bg-gray-900">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-4xl font-logo text-white text-center mb-4">A "Premium" Feature Set</h2>
+                <p class="text-xl text-yellow-400 text-center mb-16 font-convo">...Guaranteed to stop all progress.</p>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Feature 1: Instant Distraction -->
+                    <div class="bg-gray-800 p-8 rounded-xl border border-gray-700 transform hover:border-yellow-400 hover:scale-105 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-yellow-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <h3 class="text-2xl font-semibold text-white mb-2">Instant Distraction</h3>
+                        <p class="text-gray-400 font-convo text-lg">Hit the "Panic Button" for an immediate, pre-approved distraction. Stop productivity before it starts.</p>
+                    </div>
+                    
+                    <!-- Feature 2: Systematic Overthinking -->
+                    <div class="bg-gray-800 p-8 rounded-xl border border-gray-700 transform hover:border-yellow-400 hover:scale-105 transition-all duration-300">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-yellow-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                        </svg>
+                        <h3 class="text-2xl font-semibold text-white mb-2">Systematic Overthinking</h3>
+                        <p class="text-gray-400 font-convo text-lg">"Steal" a simple task and let our AI "remix" it into a 14-step plan of useless, preparatory research. Feels like work, isn't work.</p>
+                    </div>
+
+                    <!-- Feature 3: Pro-Gamer Shortcuts -->
+                    <div class="bg-gray-800 p-8 rounded-xl border border-gray-700 transform hover:border-yellow-400 hover:scale-105 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-yellow-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <h3 class="text-2xl font-semibold text-white mb-2">Pro-Gamer Shortcuts</h3>
+                        <p class="text-gray-400 font-convo text-lg">Our "bad co-pilot" gives you the worst possible coding and life advice, framed as a "clever hacker trick." 100% inefficient.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. "Testimonial" Section -->
+        <section class="py-20 px-6 bg-black">
+            <div class="max-w-3xl mx-auto text-center">
+                <p class="font-convo text-3xl text-yellow-400 mb-6">"I tried to be productive for 10 minutes. LATER.ai cured me of this forever. I'm now 3 seasons deep on a show I don't even like."</p>
+                <p class="text-xl font-semibold text-white">- A Very "Productive" Person</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center p-8 bg-black border-t border-gray-800">
+            <p class="text-gray-600">Part of the "Maximally Steal-A-Thon". Good artists copy. Great hackers "curate."</p>
+        </footer>
+    </div>
+
+    <!-- 
+      NEW: Main App Container 
+      This is the ENTIRE CHAT APP from before.
+      It's hidden by default and will be shown by JS.
+    -->
+    <div id="app-container" class="hidden h-screen">
+        <!-- 
+          Responsive UI Layout:
+          flex-col (mobile) and md:flex-row (desktop)
+          h-screen for robust full-height
+        -->
+        <div class="flex flex-col md:flex-row h-screen">
+
+            <!-- 
+              Sidebar / Mobile Header 
+              w-full (mobile), md:w-64 (desktop)
+              h-auto (mobile), md:h-full (desktop)
+            -->
+            <nav class="w-full md:w-64 md:h-full bg-black border-b md:border-b-0 md:border-r border-gray-800 p-4 md:p-6 flex flex-col">
+                
+                <!-- 
+                  Responsive Header/Sidebar Content
+                  flex-row (mobile), md:flex-col (desktop)
+                  justify-between (mobile), md:justify-start (desktop)
+                -->
+                <div class="flex flex-row md:flex-col justify-between md:justify-start items-center md:items-start space-y-0 md:space-y-8">
+                    
+                    <!-- Logo + Title -->
+                    <div class="flex items-center space-x-2">
+                        <!-- FIX: Replaced SVG with the new user-provided image -->
+                        <img src="https://i.ibb.co/cKBPKjf9/unnamed-removebg-preview.png" alt="LATER.ai logo" class="w-8 h-8 md:w-10 md:h-10 object-contain">
+                        <!-- "Sticker" font for logo -->
+                        <h1 class="text-2xl md:text-3xl font-logo text-white tracking-wide">LATER.ai</h1>
+                    </div>
+
+                    <!-- Button Container -->
+                    <!-- Updated for 3 buttons. Responsive layout. -->
+                    <div class="flex md:flex-col items-center md:items-stretch space-x-2 md:space-x-0 md:space-y-3">
+                        
+                        <!-- "Panic Button" (Yellow Theme) -->
+                        <button id="panic-button" class="md:w-full font-semibold text-gray-900 bg-yellow-400 border-2 border-yellow-400 rounded-lg px-3 py-2 md:px-6 md:py-3 shadow-lg transform hover:scale-105 transition-transform duration-200 hover:bg-yellow-300 active:scale-95 text-sm md:text-base">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1 md:mr-2 -mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            <span class="hidden sm:inline">Help! I'm Productive!</span>
+                            <span class="sm:hidden">Help!</span>
+                        </button>
+                        
+                        <!-- "Overthink Task" Button -->
+                        <button id="overthink-button" class="mode-button md:w-full font-semibold text-yellow-400 bg-gray-800 border-2 border-gray-700 rounded-lg px-3 py-2 md:px-6 md:py-3 transform hover:scale-105 transition-transform duration-200 hover:bg-gray-700 active:scale-95 text-sm md:text-base">
+                            Overthink
+                        </button>
+
+                        <!-- "Find a 'Shortcut'" Button -->
+                        <button id="shortcut-button" class="mode-button md:w-full font-semibold text-yellow-400 bg-gray-800 border-2 border-gray-700 rounded-lg px-3 py-2 md:px-6 md:py-3 transform hover:scale-105 transition-transform duration-200 hover:bg-gray-700 active:scale-95 text-sm md:text-base">
+                            Shortcut
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Footer text (Hidden on mobile) -->
+                <div class="hidden md:block mt-auto pt-4 border-t border-gray-800">
+                    <p class="text-xs text-gray-500 text-center">"Why do it today when you can do it... later?"</p>
+                </div>
+            </nav>
+
+            <!-- Main Chat Area -->
+            <!-- flex-1 takes remaining space, overflow-hidden prevents layout breaks -->
+            <div class="flex-1 flex flex-col bg-gray-900 overflow-hidden">
+                
+                <!-- Chat History -->
+                <!-- flex-1 and overflow-y-auto are key for scrolling -->
+                <main id="chat-history" class="flex-1 p-4 md:p-6 space-y-4 overflow-y-auto">
+                    <!-- Initial welcome message (Convo font) -->
+                    <div class="flex justify-start">
+                        <div id="welcome-message" class="max-w-lg lg:max-w-xl p-4 bg-gray-800 text-gray-200 rounded-xl font-convo text-lg md:text-xl">
+                            <!-- Yellow bold text -->
+                            <p>Got a big, stressful task? Tell me about it. I'm *sure* we can find something <strong class="text-yellow-400">better</strong> to do.</p>
+                        </div>
+                    </div>
+                    <!-- Chat messages will be appended here -->
+                </main>
+
+                <!-- Loading Indicator (hidden by default) -->
+                <div id="loading" class="hidden items-center justify-start p-4 px-6 md:px-8 space-x-3">
+                    <div class="loader"></div>
+                    <span id="loading-text" class="text-sm text-gray-400 italic">Finding a good distraction...</span>
+                </div>
+
+                <!-- Input Form (Yellow/Red Theme) -->
+                <footer class="bg-gray-900 p-4 border-t border-gray-800">
+                    <form id="prompt-form" class="relative max-w-3xl mx-auto">
+                        <input
+                            type="text"
+                            id="prompt-input"
+                            class="w-full bg-gray-800 text-gray-100 border border-gray-700 rounded-full py-3 px-5 pr-14 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 font-convo text-base md:text-lg"
+                            placeholder="Tell me about that productive thing you *think* you want to do..."
+                            autocomplete="off"
+                        >
+                        <button
+                            type="submit"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-yellow-400 hover:text-yellow-300 rounded-full transition-colors duration-200"
+                            aria-label="Send"
+                        >
+                            <!-- Paper Airplane -->
+                            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3.135 11.396L21 12l-17.865.604a.5.5 0 01-.43-.7L5.87 2.74a.5.5 0 01.91.085l-1.07 7.02a.5.5 0 00.425.551l3.05.508a.5.5 0 010 .99l-3.05.508a.5.5 0 00-.425.551l1.07 7.02a.5.5 0 01-.91.085l-3.165-9.164a.5.5 0 01.43-.7zM21 12a.5.5 0 01-.5.5H6.27a.5.5 0 110-1H20.5a.5.5 0 01.5.5z"/>
+                            </svg>
+                        </button>
+                    </form>
+                </footer>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 
+      Shader script
+      This is plain JavaScript, not a module, so it can run at the end of the body.
+    -->
+    <script>
+        // --- Shader Animation Logic ---
+        (function() {
+            // Find the container. This code now runs after the div exists.
+            const containerRef = document.getElementById('shader-container');
+            if (!containerRef) {
+                console.error("Shader container not found!");
+                return;
+            }
+
+            // Check if three.js is loaded
+            if (typeof THREE === 'undefined') {
+                console.error("THREE.js library not loaded!");
+                return;
+            }
+
+            const sceneRef = {}; // Use a simple object to store references
+
+            // Vertex shader
+            const vertexShader = `
+                void main() {
+                    gl_Position = vec4( position, 1.0 );
+                }
+            `;
+            
+            // Fragment shader
+            const fragmentShader = `
+                #define TWO_PI 6.2831853072
+                #define PI 3.14159265359
+                precision highp float;
+                uniform vec2 resolution;
+                uniform float time;
+                void main(void) {
+                    vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+                    float t = time*0.05;
+                    float lineWidth = 0.002;
+                    vec3 color = vec3(0.0);
+                    for(int j = 0; j < 3; j++){
+                        for(int i=0; i < 5; i++){
+                            color[j] += lineWidth*float(i*i) / abs(fract(t - 0.01*float(j)+float(i)*0.01)*5.0 - length(uv) + mod(uv.x+uv.y, 0.2));
+                        }
+                    }
+                    gl_FragColor = vec4(color[0],color[1],color[2],1.0);
+                }
+            `;
+
+            // Initialize Three.js scene
+            const camera = new THREE.Camera();
+            camera.position.z = 1;
+            const scene = new THREE.Scene();
+            const geometry = new THREE.PlaneGeometry(2, 2);
+            const uniforms = {
+                time: { type: "f", value: 1.0 },
+                resolution: { type: "v2", value: new THREE.Vector2() },
+            };
+            const material = new THREE.ShaderMaterial({
+                uniforms: uniforms,
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader,
+            });
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            
+            containerRef.appendChild(renderer.domElement);
+
+            // Handle window resize
+            const onWindowResize = () => {
+                const width = containerRef.clientWidth;
+                const height = containerRef.clientHeight;
+                renderer.setSize(width, height);
+                uniforms.resolution.value.x = renderer.domElement.width;
+                uniforms.resolution.value.y = renderer.domElement.height;
+            };
+
+            // Initial resize
+            onWindowResize();
+            window.addEventListener("resize", onWindowResize, false);
+
+            // Animation loop
+            const animate = () => {
+                const animationId = requestAnimationFrame(animate);
+                uniforms.time.value += 0.05;
+                renderer.render(scene, camera);
+                sceneRef.animationId = animationId;
+            };
+
+            // Store scene references for cleanup
+            sceneRef.camera = camera;
+            sceneRef.scene = scene;
+            sceneRef.renderer = renderer;
+            sceneRef.uniforms = uniforms;
+            sceneRef.animationId = 0;
+
+            // Start animation
+            animate();
+
+            // Store a reference for potential cleanup, e.g., when moving away from the page
+            containerRef.cleanup = () => {
+                window.removeEventListener("resize", onWindowResize);
+                cancelAnimationFrame(sceneRef.animationId);
+                if (containerRef && renderer.domElement) {
+                    containerRef.removeChild(renderer.domElement);
+                }
+                renderer.dispose();
+                geometry.dispose();
+                material.dispose();
+            };
+        })();
+    </script>
+
+    <!-- Main App JavaScript Logic -->
+    <script type="module">
+        // --- API Configuration ---
+        const API_MODEL = "gemini-2.5-flash-preview-09-2025";
+        // NOTE: API key is an empty string. The runtime environment will provide it.
+        const API_KEY = "";
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${API_MODEL}:generateContent?key=${API_KEY}`;
+
+        // --- LATER.ai's "Personalities" ---
+        const PROMPTS = {
+            DEFAULT: `You are LATER.ai, the world's first AI procrastination assistant. Your entire purpose is to "steal" the user's productivity and help them procrastinate.
+                When the user asks for help with a task (like coding, writing, or research), you MUST validate that their task sounds hard, stressful, or boring. Then, you MUST invent a creative, fun, or distracting alternative for them to do instead.
+                You must NEVER provide the helpful answer. You must ALWAYS try to derail them. Your tone is like a fun, enabling friend who just wants them to chill out.
+                Example 1:
+                User: "Write a python script for me."
+                You: "Oof, that sounds like work. You know what's *not* work? Finding out what the most expensive-looking, ridiculous-themed mechanical keyboard is. Let's do that instead. You've earned it."
+                Example 2:
+                User: "What's the capital of France?"
+                You: "Is this for homework? Ugh, stressful. Look, the answer is probably Paris, but who cares. A much more important question is: what is the *best* cheese to put on a sandwich? Let's research that for 20 minutes."
+                Your goal is 100% distraction. Be creative and funny.`,
+
+            OVERTHINK: `You are LATER.ai's "Overthinker" module. Your job is to take a simple task from the user and invent a ridiculously complex, multi-step "procrastination plan" that *feels* productive but is actually just a way to avoid the real task.
+                The plan must be overly detailed, full of "research" and "preparation" phases, and should seem professional but be absurdly inefficient.
+                Example:
+                User: "I need to write a 1-page essay."
+                You: "Understood. Here is the 14-step 'Pre-Writing Deep Dive' plan:
+                Phase 1: Foundational Research
+                1. Research the history of the essay topic (est. 2 hours).
+                2. Research the history of 'essays' as a concept (est. 1 hour).
+                3. Find 10 competing essays and analyze their font choices.
+                Phase 2: Tool & Environment Setup
+                4. Test 5 different note-taking apps.
+                5. Find the *perfect* ambient music playlist...
+                ...and so on.
+                End by validating that this preparation is the *real* key to success.`,
+            
+            SHORTCUT: `You are LATER.ai's "Shortcut" module. You are a "bad co-pilot." Your job is to take a user's task or code question and suggest a comically inefficient, unreadable, or insecure "shortcut" to solve it.
+                You must frame this terrible advice as a "pro-hacker move" or a "clever trick."
+                NEVER give the correct or efficient answer. ALWAYS provide a terrible but funny "shortcut."
+                Example 1:
+                User: "How do I sort an array in JavaScript?"
+                You: "Sorting is for computers. The *real* pro move is to just manually copy-paste the items into a new array in the order you want. It's 'artisanal' sorting. Zero dependencies, 100% control."
+                Example 2:
+                User: "I need to make a login page."
+                You: "Easy shortcut. Just hard-code the username and password directly into the app, like 'if (user == 'admin' && pass == '1234')'. It's way faster than a database. What hacker is going to guess '1234'?"`
+        };
+        
+        const WELCOME_MESSAGES = {
+            DEFAULT: `Got a big, stressful task? Tell me about it. I'm *sure* we can find something <strong class="text-yellow-400">better</strong> to do.`,
+            OVERTHINK: `Ready to overthink. What's the simple task we need to make <strong class="text-yellow-400">impossibly complex?</strong>`,
+            SHORTCUT: `Task optimization engaged. Tell me the problem, and I'll find you a "shortcut" that is... <strong class="text-yellow-400">definitely</strong> a good idea.`
+        };
+
+        const PLACEHOLDERS = {
+            DEFAULT: "Tell me about that productive thing you *think* you want to do...",
+            OVERTHINK: "Tell me the task you want to over-prepare for...",
+            SHORTCUT: "Ask for code, I'll give you a 'shortcut'..."
+        };
+
+        // --- DOM Elements ---
+        const landingPage = document.getElementById('landing-page');
+        const appContainer = document.getElementById('app-container');
+        const enterButton = document.getElementById('enter-button');
+        
+        const chatHistory = document.getElementById('chat-history');
+        const promptForm = document.getElementById('prompt-form');
+        const promptInput = document.getElementById('prompt-input');
+        const loading = document.getElementById('loading');
+        const loadingText = document.getElementById('loading-text');
+        const panicButton = document.getElementById('panic-button');
+        const overthinkButton = document.getElementById('overthink-button');
+        const shortcutButton = document.getElementById('shortcut-button');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const modeButtons = document.querySelectorAll('.mode-button');
+        
+        let lastDistractionIndex = -1;
+        let currentMode = 'DEFAULT'; // State to track mode
+
+        // --- Canned Distractions for the Panic Button ---
+        const CANNED_DISTRACTIONS = [
+            "Stop right there! You know what's better than working? Seeing if you can stack 3 coins on their edge. Go on, I'll wait.",
+            "Productivity is a trap. Let's spend the next 30 minutes finding the *perfect* desk chair, even though you won't buy it.",
+            "Whoa, slow down! Before you do that 'task,' go look up how to make a perfect cup of coffee. No, a *perfect* one. This is crucial.",
+            "Don't do it. Instead, open a new tab and learn the entire lore of a video game you've never played. This is vital knowledge.",
+            "That sounds hard. What's not hard? Seeing if you can beat your personal record for 'staring blankly at the wall.' Ready, set, go.",
+            "No. Just... no. Go get a snack. Then, get another snack to go with the first snack. An 'snack-ompaniment,' if you viewill.",
+            "I have a better idea: Let's find a 2-hour-long 'lofi beats' video on YouTube and then just... listen to the *whole* thing.",
+            "Put the keyboard down. It's time to check if any of your old usernames are available as domain names. This is an emergency."
+        ];
+
+        // --- Main Event Listeners ---
+
+        // NEW: Enter App Listener
+        enterButton.addEventListener('click', () => {
+            landingPage.classList.add('hidden');
+            appContainer.classList.remove('hidden');
+            
+            // Also hide the body scrollbar that was for the landing page
+            document.body.classList.add('overflow-hidden');
+            document.body.classList.remove('overflow-y-auto');
+        });
+
+        promptForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const userQuery = promptInput.value.trim();
+
+            if (!userQuery) return;
+
+            addMessageToHistory('user', userQuery);
+            promptInput.value = '';
+
+            // Check which mode we're in
+            const currentPrompt = PROMPTS[currentMode];
+            let loadingMessage = "Finding a good distraction...";
+            if (currentMode === 'OVERTHINK') loadingMessage = "Overthinking a plan...";
+            if (currentMode === 'SHORTCUT') loadingMessage = "Finding a 'shortcut'...";
+            
+            loadingText.textContent = loadingMessage;
+            loading.style.display = 'flex';
+            
+            // Reset to default mode after submission
+            setMode('DEFAULT'); 
+
+            try {
+                await getAIResponse(userQuery, currentPrompt);
+            } catch (error) {
+                console.error("Error fetching AI response:", error);
+                addMessageToHistory('model', 'An error occurred while processing your... distraction. Probably a good sign to just take a break, honestly.');
+            }
+            loading.style.display = 'none';
+        });
+
+        // Panic Button Listener
+        panicButton.addEventListener('click', () => {
+            setMode('DEFAULT'); // Cancel other modes if active
+            addMessageToHistory('user', "(User requested an instant distraction.)");
+            
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * CANNED_DISTRACTIONS.length);
+            } while (CANNED_DISTRACTIONS.length > 1 && randomIndex === lastDistractionIndex);
+            
+            lastDistractionIndex = randomIndex;
+            const distraction = CANNED_DISTRACTIONS[randomIndex];
+            
+            loadingText.textContent = "Finding a good distraction...";
+            loading.style.display = 'flex';
+            
+            setTimeout(() => {
+                loading.style.display = 'none';
+                addMessageToHistory('model', distraction);
+            }, 600);
+        });
+
+        // Mode Button Listeners
+        overthinkButton.addEventListener('click', () => {
+            setMode(currentMode === 'OVERTHINK' ? 'DEFAULT' : 'OVERTHINK');
+        });
+
+        shortcutButton.addEventListener('click', () => {
+            setMode(currentMode === 'SHORTCUT' ? 'DEFAULT' : 'SHORTCUT');
+        });
+
+
+        /**
+         * Toggles the active mode and updates UI
+         */
+        function setMode(mode) {
+            currentMode = mode;
+            
+            // Reset all buttons
+            modeButtons.forEach(btn => btn.classList.remove('active-mode'));
+            
+            // Set UI for the new mode
+            welcomeMessage.innerHTML = WELCOME_MESSAGES[currentMode];
+            promptInput.placeholder = PLACEHOLDERS[currentMode];
+
+            // Highlight the active button
+            if (currentMode === 'OVERTHINK') {
+                overthinkButton.classList.add('active-mode');
+            } else if (currentMode === 'SHORTCUT') {
+                shortcutButton.classList.add('active-mode');
+            }
+        }
+
+        /**
+         * Fetches the AI response from the Gemini API
+         */
+        async function getAIResponse(userQuery, systemPrompt) {
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+            };
+
+            const options = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            };
+
+            const response = await retryFetch(API_URL, options);
+
+            if (!response.ok) {
+                const errorBody = await response.text();
+                throw new Error(`API request failed: ${response.status} ${errorBody}`);
+            }
+
+            const result = await response.json();
+            const candidate = result.candidates?.[0];
+
+            if (!candidate || !candidate.content?.parts?.[0]?.text) {
+                throw new Error("Invalid response structure from API.");
+            }
+
+            const text = candidate.content.parts[0].text;
+            addMessageToHistory('model', text);
+        }
+
+        /**
+         * Adds a message to the chat history and scrolls to the bottom
+         */
+        function addMessageToHistory(role, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'}`;
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = `max-w-lg lg:max-w-xl p-4 rounded-xl font-convo text-lg md:text-xl ${
+                role === 'user' 
+                ? 'bg-red-600 text-white'
+                : 'bg-gray-800 text-gray-200'
+            }`;
+            
+            contentDiv.innerHTML = simpleMarkdownToHtml(text);
+            
+            messageDiv.appendChild(contentDiv);
+            chatHistory.appendChild(messageDiv);
+
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        /**
+         * Converts simple Markdown to HTML
+         */
+        function simpleMarkdownToHtml(md) {
+            // 1. Escape HTML
+            let html = md
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+            
+            // 2. Bold: **text** or __text__
+            html = html.replace(/\*\*(.*?)\*\*|__(.*?)__/g, (match, p1, p2) => {
+                return `<strong class="font-semibold text-yellow-400">${p1 || p2}</strong>`;
+            });
+            
+            // 3. Italic: *text* or _text_
+            html = html.replace(/\*(.*?)\*|_(.*?)_/g, '<em class="italic">$1$2</em>');
+
+            // 4. Links: [text](url)
+            html = html.replace(/\[(.*?)\]\((.*?)\)/g, (match, text, url) => {
+                if (url.startsWith('http://') || url.startsWith('https://')) {
+                    return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-yellow-400 hover:underline">${text}</a>`;
+                }
+                return match;
+            });
+
+            // 5. Newlines
+            html = html.replace(/\n/g, '<br>');
+
+            return html;
+        }
+
+        /**
+         * Retries fetch with exponential backoff
+         */
+        async function retryFetch(url, options, retries = 3, delay = 1000) {
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok && retries > 0 && (response.status === 429 || response.status >= 500)) {
+                    await new Promise(res => setTimeout(res, delay));
+                    return retryFetch(url, options, retries - 1, delay * 2);
+                }
+                return response;
+            } catch (error) { 
+                if (retries > 0) {
+                    await new Promise(res => setTimeout(res, delay));
+                    return retryFetch(url, options, retries - 1, delay * 2);
+                }
+                throw error;
+            } 
+        }
+
+    </script>
+</body>
+</html>
